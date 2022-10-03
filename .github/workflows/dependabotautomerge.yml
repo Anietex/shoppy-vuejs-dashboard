@@ -6,6 +6,8 @@ on:
 jobs:
   worker:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
     if: github.actor == 'dependabot[bot]'
     steps:
