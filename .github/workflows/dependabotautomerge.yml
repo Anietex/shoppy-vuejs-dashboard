@@ -44,7 +44,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-              github.pulls.merge({
+              github.rest.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.payload.repository.name,
                 pull_number: context.payload.pull_request.number
