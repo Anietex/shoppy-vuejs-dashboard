@@ -41,10 +41,11 @@ jobs:
   pr-automerge:
     runs-on: ubuntu-latest
     steps:
-      - uses: davideviolante/pr-automerge-action@v1.3.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/github-script@v6
         with:
-          merge-method: 'squash' # Default 'squash'
-          min-approvals: 0 # Default 2
-          base-ref: 'master' # Default 'dev'
+          script: |
+              github.pullRequests.merge({
+                owner: context.repo.owner,
+                repo: context.payload.repository.name,
+                pull_number: context.payload.pull_request.number
+              })
