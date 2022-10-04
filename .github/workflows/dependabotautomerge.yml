@@ -26,7 +26,7 @@ jobs:
               repo: context.payload.repository.name,
               pull_number: context.payload.pull_request.number
             })
-            github-token: ${{ secrets.ACCESS_TOKEN }}
+            github-token: ${{github.token}}
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
