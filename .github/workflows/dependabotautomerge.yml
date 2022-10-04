@@ -31,21 +31,40 @@
 #          PR_URL: ${{github.event.pull_request.html_url}}
 #          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+#name: PRs auto merge
+#
+#on:
+#  pull_request:
+#
+#jobs:
+#  pr-automerge:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/github-script@v6
+#        with:
+#          script: |
+#              github.rest.pulls.merge({
+#                owner: context.repo.owner,
+#                repo: context.payload.repository.name,
+#                pull_number: context.payload.pull_request.number
+#              })
 
 name: PRs auto merge
 
 on:
-  pull_request:
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  pr-automerge:
+  dependenbot-approved-automerge:
     runs-on: ubuntu-latest
+    if: github.event.review.state == 'approved' && contains(github.event.pull_request.labels.*.name, 'dependencies')
     steps:
       - uses: actions/github-script@v6
         with:
           script: |
-              github.rest.pulls.merge({
-                owner: context.repo.owner,
-                repo: context.payload.repository.name,
-                pull_number: context.payload.pull_request.number
-              })
+            github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number
+            })
