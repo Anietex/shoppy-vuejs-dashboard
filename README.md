@@ -17,7 +17,7 @@ npm run build
 
 ### Run your testsvnnfn
 ```
-npm run test r
+npm run test r ir
 ```
 
 ### Lints and fixes files
